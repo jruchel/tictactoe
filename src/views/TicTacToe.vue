@@ -61,7 +61,8 @@ export default {
       over: false,
       snackbar: {show: false, text: 'Game over!'},
       clickAudio: new Audio(require('@/assets/sounds/click.mp3')),
-      gameOverAudio: new Audio(require('@/assets/sounds/gameOver.wav'))
+      gameOverAudio: new Audio(require('@/assets/sounds/gameOver.wav')),
+      drawingSound: new Audio(require('@/assets/sounds/drawingSound3.mp3'))
     }
   },
   provide() {
@@ -72,7 +73,7 @@ export default {
   methods: {
     handleTileClick(args) {
       if (this.over) return
-      this.playSound(this.clickAudio)
+      this.playSound(this.drawingSound)
       let tilePlayer = args[0]
       if (tilePlayer !== this.players.none) {
         args[1](tilePlayer)
