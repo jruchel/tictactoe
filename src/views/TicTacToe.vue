@@ -75,14 +75,14 @@ export default {
         args[1](this.currentPlayer)
         this.currentPlayer = this.getOpponent(this.currentPlayer)
       }
-      let winner = this.isOver()
-      if (winner !== null) {
+      let gameResult = this.isOver()
+      if (gameResult !== null) {
         this.over = true
         this.snackbar.show = true
-        if (winner === 0) {
+        if (gameResult.winner === 0) {
           this.snackbar.text = "Draw!"
         } else {
-          if (winner === 1) {
+          if (gameResult.winner === 1) {
             this.snackbar.text = "Player one wins!"
             this.firstScore++
           } else {
@@ -123,7 +123,7 @@ export default {
       for (let i = 0; i < verticalTiles.length; i++) {
         let checkResult = this.allTilesSamePlayer(verticalTiles[i])
         if (checkResult[0]) {
-          return checkResult[1]
+          return {winner: checkResult[1], tiles: verticalTiles[i]}
         }
       }
       //Horizontal tiles
@@ -131,7 +131,7 @@ export default {
       for (let i = 0; i < horizontalTiles.length; i++) {
         let checkResult = this.allTilesSamePlayer(horizontalTiles[i])
         if (checkResult[0]) {
-          return checkResult[1]
+          return {winner: checkResult[1], tiles: verticalTiles[i]}
         }
       }
       //Diagonal tiles
@@ -139,11 +139,11 @@ export default {
       for (let i = 0; i < diagonalTiles.length; i++) {
         let checkResult = this.allTilesSamePlayer(diagonalTiles[i])
         if (checkResult[0]) {
-          return checkResult[1]
+          return {winner: checkResult[1], tiles: verticalTiles[i]}
         }
       }
       if (!this.hasEmptyTiles(board)) {
-        return 0
+        return {winner: 0, tiles: null}
       }
       return null
     },

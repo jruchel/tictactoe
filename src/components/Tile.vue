@@ -1,5 +1,5 @@
 <template>
-  <v-card class="justify-center" height="100" @click="tileClicked">
+  <v-card :color="color" class="justify-center" height="100" @click="tileClicked">
     <v-card-title class="justify-center">{{ getPlayerRepresentation(player) }}</v-card-title>
   </v-card>
 </template>
@@ -13,6 +13,7 @@ export default {
   data() {
     return {
       player: this.players.none,
+      color: 'white'
     }
   },
   methods: {
