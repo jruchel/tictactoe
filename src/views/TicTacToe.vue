@@ -14,10 +14,10 @@
     </v-container>
     <v-container style="margin-top: 10px">
       <v-row class="justify-center flex-nowrap">
-        <v-col cols="6" sm="3">
+        <v-col cols="12" xs="8" sm="8" md="7" lg="4">
           <v-card min-width="100%">
             <v-card-title class="justify-center">Score:</v-card-title>
-            <v-card-title class="justify-center">{{ firstScore }} / {{ secondScore }}</v-card-title>
+            <v-card-title class="justify-center">{{ firstScore }} : {{ secondScore }}</v-card-title>
           </v-card>
         </v-col>
       </v-row>
@@ -25,6 +25,17 @@
     <v-container>
       <v-row class="justify-center">
         <v-btn color="red lighten-2" class="white--text" @click="resetScore">Reset score</v-btn>
+      </v-row>
+    </v-container>
+    <v-container>
+      <v-row>
+        <v-snackbar
+            v-model="snackbar.show"
+            color="blue-grey"
+            bottom
+        >
+          {{ snackbar.text }}
+        </v-snackbar>
       </v-row>
     </v-container>
   </div>
@@ -44,7 +55,9 @@ export default {
     return {
       currentPlayer: this.players.first,
       firstScore: 0,
-      secondScore: 0
+      secondScore: 0,
+      over: false,
+      snackbar: {show: false, text: 'Game over!'}
     }
   },
   provide() {
@@ -54,6 +67,7 @@ export default {
   },
   methods: {
     handleTileClick(args) {
+      if (this.over) return
       let tilePlayer = args[0]
       if (tilePlayer !== this.players.none) {
         args[1](tilePlayer)
@@ -63,18 +77,18 @@ export default {
       }
       let winner = this.isOver()
       if (winner !== null) {
+        this.over = true
+        this.snackbar.show = true
         if (winner === 0) {
-          alert("Draw!")
-          console.log(this.getBoardAsArray())
-          this.reset()
+          this.snackbar.text = "Draw!"
         } else {
-          alert("Player " + winner + " won!")
           if (winner === 1) {
+            this.snackbar.text = "Player one wins!"
             this.firstScore++
           } else {
+            this.snackbar.text = "Player two wins!"
             this.secondScore++
           }
-          this.reset()
         }
       }
     },
@@ -87,6 +101,8 @@ export default {
         let child = this.$children[i]
         child.player = 0
       }
+      this.snackbar.show = false
+      this.over = false
     },
     resetScore() {
       this.firstScore = 0
@@ -129,8 +145,6 @@ export default {
       if (!this.hasEmptyTiles(board)) {
         return 0
       }
-
-
       return null
     },
     hasEmptyTiles(board) {
