@@ -9,7 +9,7 @@
     </v-container>
     <v-container>
       <v-row class="justify-center">
-        <v-btn color="cyan lighten-1" @click="reset">Reset</v-btn>
+        <v-btn color="cyan lighten-2" class="white--text" @click="reset">Reset</v-btn>
       </v-row>
     </v-container>
     <v-container style="margin-top: 10px">
@@ -20,6 +20,11 @@
             <v-card-title class="justify-center">{{ firstScore }} / {{ secondScore }}</v-card-title>
           </v-card>
         </v-col>
+      </v-row>
+    </v-container>
+    <v-container>
+      <v-row class="justify-center">
+        <v-btn color="red lighten-2" class="white--text" @click="resetScore">Reset score</v-btn>
       </v-row>
     </v-container>
   </div>
@@ -82,6 +87,10 @@ export default {
         let child = this.$children[i]
         child.player = 0
       }
+    },
+    resetScore() {
+      this.firstScore = 0
+      this.secondScore = 0
     },
     emptyTilesFilter(tile) {
       for (let i = 0; i < tile.length; i++) {
