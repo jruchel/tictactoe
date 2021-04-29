@@ -22,9 +22,7 @@ export default {
       return "";
     },
     changePlayer(player) {
-      console.log("before " + this.player)
       this.player = player
-      console.log("after " + this.player)
     },
     tileClicked() {
       this.$emit('tile-clicked', [this.player, this.changePlayer])

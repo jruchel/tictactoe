@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app data-app>
     <v-main>
       <h1 style="text-align: center">Tic Tac Toe</h1>
       <BoardView :size="3"></BoardView>
