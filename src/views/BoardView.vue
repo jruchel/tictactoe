@@ -12,6 +12,16 @@
         <v-btn color="cyan" @click="reset">Reset</v-btn>
       </v-row>
     </v-container>
+    <v-container style="margin-top: 10px">
+      <v-row class="justify-center flex-nowrap">
+        <v-col cols="6" sm="3">
+          <v-card min-width="100%">
+            <v-card-title class="justify-center">Score:</v-card-title>
+            <v-card-title class="justify-center">{{ firstScore }} / {{ secondScore }}</v-card-title>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -27,7 +37,9 @@ export default {
   },
   data() {
     return {
-      currentPlayer: this.players.first
+      currentPlayer: this.players.first,
+      firstScore: 0,
+      secondScore: 0
     }
   },
   provide() {
