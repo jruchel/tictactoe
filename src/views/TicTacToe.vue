@@ -45,6 +45,7 @@
 <script>
 import Tile from "@/components/Tile";
 
+
 export default {
   name: "BoardView",
   components: {Tile},
@@ -58,7 +59,9 @@ export default {
       firstScore: 0,
       secondScore: 0,
       over: false,
-      snackbar: {show: false, text: 'Game over!'}
+      snackbar: {show: false, text: 'Game over!'},
+      clickAudio: new Audio(require('@/assets/sounds/click.mp3')),
+      gameOverAudio: new Audio(require('@/assets/sounds/gameOver.wav'))
     }
   },
   provide() {
@@ -69,6 +72,7 @@ export default {
   methods: {
     handleTileClick(args) {
       if (this.over) return
+      this.playSound(this.clickAudio)
       let tilePlayer = args[0]
       if (tilePlayer !== this.players.none) {
         args[1](tilePlayer)
@@ -78,6 +82,7 @@ export default {
       }
       let gameResult = this.isOver()
       if (gameResult !== null) {
+        this.playSound(this.gameOverAudio)
         this.over = true
         this.snackbar.show = true
         if (gameResult.winner === 0) {
@@ -98,6 +103,7 @@ export default {
       return this.players.first
     },
     reset() {
+      this.playSound(this.clickAudio)
       for (let i = 0; i < this.$children.length; i++) {
         let child = this.$children[i]
         child.player = 0
@@ -106,8 +112,17 @@ export default {
       this.over = false
     },
     resetScore() {
+      this.playSound(this.clickAudio)
       this.firstScore = 0
       this.secondScore = 0
+    },
+    playSound(audio) {
+      try {
+        audio.play()
+      } catch (ex) {
+        console.log(ex)
+        console.log(audio)
+      }
     },
     emptyTilesFilter(tile) {
       for (let i = 0; i < tile.length; i++) {
