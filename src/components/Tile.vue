@@ -1,6 +1,6 @@
 <template>
   <v-card :color="color" class="justify-center" height="100" @click="tileClicked">
-    <v-card-title class="justify-center">{{ getPlayerRepresentation(player) }}</v-card-title>
+    <v-card-title class="justify-center" style="height: 100%">{{ getPlayerRepresentation(player) }}</v-card-title>
   </v-card>
 </template>
 
