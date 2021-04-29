@@ -1,5 +1,5 @@
 <template>
-  <v-app data-app>
+  <v-app data-app style="background-color: #9FA8DA">
     <v-main>
       <h1 style="text-align: center">Tic Tac Toe</h1>
       <TicTacToe :size="3"></TicTacToe>

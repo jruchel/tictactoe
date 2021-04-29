@@ -1,6 +1,18 @@
 <template>
   <div>
     <v-container>
+      <v-row>
+        <v-snackbar
+            top
+            style="margin-top: 2%"
+            v-model="snackbar.show"
+            color="indigo darken-1"
+        >
+          {{ snackbar.text }}
+        </v-snackbar>
+      </v-row>
+    </v-container>
+    <v-container>
       <v-row dense v-for="i in size" :key="i" class="justify-center">
         <v-col v-for="n in size" :key="n" cols="4" sm="3" md="2" lg="1">
           <Tile :id="((i - 1) * size) + n - 1" v-on:tile-clicked="handleTileClick"></Tile>
@@ -9,7 +21,7 @@
     </v-container>
     <v-container>
       <v-row class="justify-center">
-        <v-btn color="cyan lighten-2" class="white--text" @click="reset">Reset</v-btn>
+        <v-btn color="blue accent-3" class="white--text" @click="reset">Reset</v-btn>
       </v-row>
     </v-container>
     <v-container style="margin-top: 10px">
@@ -24,18 +36,7 @@
     </v-container>
     <v-container>
       <v-row class="justify-center">
-        <v-btn color="red lighten-2" class="white--text" @click="resetScore">Reset score</v-btn>
-      </v-row>
-    </v-container>
-    <v-container>
-      <v-row>
-        <v-snackbar
-            v-model="snackbar.show"
-            color="blue-grey"
-            bottom
-        >
-          {{ snackbar.text }}
-        </v-snackbar>
+        <v-btn color="red accent-3" class="white--text" @click="resetScore">Reset score</v-btn>
       </v-row>
     </v-container>
   </div>
