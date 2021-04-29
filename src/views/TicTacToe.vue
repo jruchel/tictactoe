@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-container>
-      <v-row dense v-for="i in size" :key="i">
-        <v-col v-for="n in size" :key="n">
+      <v-row dense v-for="i in size" :key="i" class="justify-center">
+        <v-col v-for="n in size" :key="n" cols="4" sm="3" md="2" lg="1">
           <Tile :id="((i - 1) * size) + n - 1" v-on:tile-clicked="handleTileClick"></Tile>
         </v-col>
       </v-row>
