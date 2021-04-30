@@ -53,6 +53,11 @@ export default {
   beforeCreate() {
     this.players = Object.freeze({'none': 0, 'first': 1, 'second': 2})
   },
+  mounted() {
+    this.gameOverAudio.volume = 0.07
+    this.clickAudio.volume = 0.07
+    this.drawingSound.volume = 0.07
+  },
   data() {
     return {
       currentPlayer: this.players.first,
