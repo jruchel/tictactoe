@@ -124,6 +124,7 @@ export default {
     },
     playSound(audio) {
       try {
+        audio.pause()
         audio.play()
       } catch (ex) {
         console.log(ex)
