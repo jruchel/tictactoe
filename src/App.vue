@@ -15,7 +15,6 @@ export default {
   components: {TicTacToe},
 };
 
-//TODO highlight tiles after game over
 </script>
 <style lang="scss">
 @mixin setFont($font-name) {

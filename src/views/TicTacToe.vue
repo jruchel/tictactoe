@@ -95,10 +95,10 @@ export default {
           this.snackbar.text = "Draw!"
         } else {
           if (gameResult.winner === 1) {
-            this.snackbar.text = "Player one wins!"
+            this.snackbar.text = "Player two wins!"
             this.firstScore++
           } else {
-            this.snackbar.text = "Player two wins!"
+            this.snackbar.text = "Player one wins!"
             this.secondScore++
           }
         }
