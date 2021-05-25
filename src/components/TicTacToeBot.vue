@@ -123,7 +123,7 @@ export default {
       if (tile === 4) return this.selectRandomTile()
       //If any other tile was selected place opposite
       if (this.isTileAvailable(this.selectOppositeTile(tile))) return this.selectOppositeTile(tile)
-      //If none of the upper conditions are met, place anywhere
+      //If none of the above conditions are met, select the best possible move available at the time
       return this.selectBestMove()
     },
     respondToPlayerMove(tile) {
