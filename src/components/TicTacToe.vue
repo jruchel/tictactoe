@@ -13,9 +13,9 @@
       </v-row>
     </v-container>
     <v-container>
-      <v-row dense v-for="i in size" :key="i" class="justify-center">
-        <v-col v-for="n in size" :key="n" cols="4" sm="3" md="2" lg="1">
-          <Tile :id="((i - 1) * size) + n - 1" v-on:tile-clicked="handleTileClick"></Tile>
+      <v-row dense v-for="i in 3" :key="i" class="justify-center">
+        <v-col v-for="n in 3" :key="n" cols="4" sm="3" md="2" lg="1">
+          <Tile :id="((i - 1) * 3) + n - 1" v-on:tile-clicked="handleTileClick"></Tile>
         </v-col>
       </v-row>
     </v-container>
@@ -49,7 +49,6 @@ import Tile from "@/components/Tile";
 export default {
   name: "BoardView",
   components: {Tile},
-  props: ['size'],
   beforeCreate() {
     this.players = Object.freeze({'none': 0, 'first': 1, 'second': 2})
   },
@@ -79,11 +78,11 @@ export default {
     handleTileClick(args) {
       if (this.over) return
       this.playSound(this.drawingSound)
-      let tilePlayer = args[0]
+      let tilePlayer = args.player
       if (tilePlayer !== this.players.none) {
-        args[1](tilePlayer)
+        args.onChange(tilePlayer)
       } else {
-        args[1](this.currentPlayer)
+        args.onChange(this.currentPlayer)
         this.currentPlayer = this.getOpponent(this.currentPlayer)
       }
       let gameResult = this.isOver()
@@ -103,6 +102,14 @@ export default {
           }
         }
       }
+      this.$emit('tile-click', {player: this.getOpponent(this.currentPlayer), tile: this.tileNumber(args.tile)})
+    },
+    tileNumber(tile) {
+      let tiles = this.$children.filter(this.tileFilter)
+      for (let i = 0; i < tiles.length; i++) {
+        if (tiles[i] === tile) return i
+      }
+      return -1
     },
     getOpponent(player) {
       if (player === this.players.first) return this.players.second
@@ -129,7 +136,6 @@ export default {
         audio.play()
       } catch (ex) {
         console.log(ex)
-        console.log(audio)
       }
     },
     emptyTilesFilter(tile) {
@@ -209,18 +215,26 @@ export default {
       for (let i = 1; i < series.length; i++) {
         if (series[i] !== first) return [false, first]
       }
-      console.log(first)
-      console.log(first === '0' || first === 0)
       return [true, first]
     },
-
+    clickTile(tileNumber) {
+      if (this.isTileAvailable(tileNumber)) {
+        let board = this.$children.filter(this.tileFilter)
+        board[tileNumber].clickTile(tileNumber)
+      }
+    },
+    isTileAvailable(tileNumber) {
+      if (this.over === true) return false
+      let board = this.$children.filter(this.tileFilter)
+      return board[tileNumber].player === 0
+    },
     getBoardAsArray() {
-      let oneDimensionBoard = this.$children.filter(this.filterTiles).map(this.mapChildrenByPlayer)
+      let oneDimensionBoard = this.$children.filter(this.tileFilter).map(this.mapChildrenByPlayer)
       const twoDimensionBoard = [];
       while (oneDimensionBoard.length) twoDimensionBoard.push(oneDimensionBoard.splice(0, 3));
       return twoDimensionBoard
     },
-    filterTiles(child) {
+    tileFilter(child) {
       return child.$options.name === 'Tile'
     },
     mapChildrenByPlayer(child) {

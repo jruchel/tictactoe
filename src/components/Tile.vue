@@ -25,8 +25,11 @@ export default {
     changePlayer(player) {
       this.player = player
     },
+    clickTile() {
+      this.tileClicked()
+    },
     tileClicked() {
-      this.$emit('tile-clicked', [this.player, this.changePlayer])
+      this.$emit('tile-clicked', {player: this.player, tile: this, onChange: this.changePlayer})
     }
   }
 }
