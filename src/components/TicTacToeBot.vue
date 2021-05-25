@@ -41,6 +41,51 @@ export default {
     selectRandomTile() {
       return this.getRandomListElement(this.getAvailableTiles())
     },
+    willLoseGame(tile) {
+      let row = this.getHorizontalLine(tile)
+      row[tile % 3] = 1
+      if (this.allComputer(row) === true) return true
+      let col = this.getVerticalLine(tile)
+      col[Math.floor(tile / 3)] = 1
+
+      return this.allComputer(col) === true
+    },
+    selectBestMove() {
+      let moves = this.getAvailableTiles()
+      for (let i = 0; i < moves.length; i++) {
+        let move = moves[i]
+        if (this.willLoseGame(move.id) === false) {
+          return move.id
+        }
+      }
+      return this.getRandomListElement(moves)
+    },
+    allComputer(series) {
+      let first = 2
+      if (first === 0 || series[0] === 0) return false
+      for (let i = 1; i < series.length; i++) {
+        if (series[i] !== first) return false
+      }
+      return true
+    },
+    getVerticalLine(tile) {
+      let board = this.getGame().getBoardAsArray()
+      if (tile === 0 || tile === 3 || tile === 6) {
+        return this.getGame().getVerticalTiles(board)[0]
+      } else if (tile === 1 || tile === 4 || tile === 7) {
+        return this.getGame().getVerticalTiles(board)[1]
+      }
+      return this.getGame().getVerticalTiles(board)[2]
+    },
+    getHorizontalLine(tile) {
+      let board = this.getGame().getBoardAsArray()
+      if (tile < 3) {
+        return this.getGame().getHorizontalTiles(board)[0]
+      } else if (tile < 6) {
+        return this.getGame().getHorizontalTiles(board)[1]
+      }
+      return this.getGame().getHorizontalTiles(board)[2]
+    },
     getBoardSquares() {
       let tiles = this.getTiles()
       let topLeft = []
@@ -79,7 +124,7 @@ export default {
       //If any other tile was selected place opposite
       if (this.isTileAvailable(this.selectOppositeTile(tile))) return this.selectOppositeTile(tile)
       //If none of the upper conditions are met, place anywhere
-      return this.selectRandomTile()
+      return this.selectBestMove()
     },
     respondToPlayerMove(tile) {
       if (this.isOver() === false) this.clickTile(this.selectTile(tile))

@@ -196,14 +196,14 @@ export default {
     getVerticalTiles(board) {
       let tiles = []
       for (let i = 0; i < board.length; i++) {
-        tiles.push([board[i][0], board[i][1], board[i][2]]);
+        tiles.push([board[0][i], board[1][i], board[2][i]]);
       }
       return tiles
     },
     getHorizontalTiles(board) {
       let tiles = []
       for (let i = 0; i < board.length; i++) {
-        tiles.push([board[0][i], board[1][i], board[2][i]]);
+        tiles.push([board[i][0], board[i][1], board[i][2]]);
       }
       return tiles
     },
