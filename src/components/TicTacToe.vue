@@ -239,7 +239,16 @@ export default {
     },
     mapChildrenByPlayer(child) {
       return child.player
-    }
+    },
+    getTiles() {
+      let tiles = this.$children.filter(this.tileFilter)
+      let result = []
+      for (let i = 0; i < tiles.length; i++) {
+        let tile = tiles[i]
+        result.push({id: tile.id, player: tile.player})
+      }
+      return result
+    },
   },
 
 
