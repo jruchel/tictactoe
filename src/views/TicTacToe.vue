@@ -116,6 +116,7 @@ export default {
       }
       this.snackbar.show = false
       this.over = false
+      this.currentPlayer = this.players.first
     },
     resetScore() {
       this.playSound(this.clickAudio)
