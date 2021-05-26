@@ -43,11 +43,10 @@ export default {
     },
     willLoseGame(tile) {
       let row = this.getHorizontalLine(tile)
-      row[tile % 3] = 1
+      row[tile % 3] = 2
       if (this.allComputer(row) === true) return true
       let col = this.getVerticalLine(tile)
-      col[Math.floor(tile / 3)] = 1
-
+      col[Math.floor(tile / 3)] = 2
       return this.allComputer(col) === true
     },
     selectBestMove() {
@@ -122,7 +121,8 @@ export default {
       //If center tile was selected place anywhere
       if (tile === 4) return this.selectRandomTile()
       //If any other tile was selected place opposite
-      if (this.isTileAvailable(this.selectOppositeTile(tile))) return this.selectOppositeTile(tile)
+      let opposite = this.selectOppositeTile(tile)
+      if (this.isTileAvailable(opposite) === true && this.willLoseGame(opposite) === false) return this.selectOppositeTile(tile)
       //If none of the above conditions are met, select the best possible move available at the time
       return this.selectBestMove()
     },
